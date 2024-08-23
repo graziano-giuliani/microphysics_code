@@ -20,7 +20,7 @@ cdo = Cdo( )
 varlist = {
             "cc"   : { "code"    : "248",
                        "command" : "", },
-            "o3"   : { "code"    : "203",
+            "w"    : { "code"    : "135",
                        "command" : "", },
             "clwc" : { "code"    : "247",
                        "command" : "", },
