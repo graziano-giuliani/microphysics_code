@@ -6,6 +6,7 @@ atmospheric dataset on model level and the original reduced gaussian
 
 # Description
 The aim of this software is to provide a reference baseline for optimization.
+The physics is described in [Nogherotto et al.](https://gmd.copernicus.org/articles/9/2533/2016/) paper.
 
 # Data
 Data to run the application needs to be downloaded from ECMWF. In the *data*
