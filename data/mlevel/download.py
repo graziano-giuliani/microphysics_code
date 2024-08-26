@@ -21,7 +21,7 @@ varlist = {
             "cc"   : { "code"    : "248",
                        "command" : "", },
             "w"    : { "code"    : "135",
-                       "command" : "", },
+                       "command" : "-remapbil,"+gdes+" -sp2gp ", },
             "clwc" : { "code"    : "247",
                        "command" : "", },
             "ciwc" : { "code"    : "246",
