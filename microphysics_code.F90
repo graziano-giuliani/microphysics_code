@@ -138,7 +138,7 @@ program microphysics_code
         do concurrent ( n = n1:n2 )
           mo2mi%ps(n) = exp(mo2mi%ps(n))
         end do
-        do is = 1 , nqx
+        do is = iqqv , iqqi
           do k = 1 , nlev
             do n = n1 , n2
               mo2mi%qxx(n,k,is) = mo2mi%qxx(n,k,is)/(1.0_rkx-mo2mi%qxx(n,k,is))
