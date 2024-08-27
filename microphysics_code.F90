@@ -53,7 +53,9 @@ program microphysics_code
   real(rk8) :: eccen , obliq , mvelp , obliqr , lambm0 , mvelpp , calday
   real(rk8) :: declin , eccf
   real(rk8) :: dt
+  integer(ik8) :: tstart , tstop , trate
 
+  call system_clock(count_rate=trate)
   call read_dimensions(e5_geop,rgrid,nlev,reduced_points)
 
   write(output_unit,*) 'Number of reduced grid points: ', rgrid
@@ -131,7 +133,7 @@ program microphysics_code
         call read_field_3d(e5_qc,'clwc',mo2mi%qxx(:,:,iqql),it)
         call read_field_3d(e5_qi,'ciwc',mo2mi%qxx(:,:,iqqi),it)
         call read_field_3d(e5_cld,'cc',mo2mi%cldf,it)
-        !call read_field_3d(e5_pvv,'w',mo2mi%pverv,it)
+        call read_field_3d(e5_pvv,'w',mo2mi%pverv,it)
 
         do concurrent ( n = n1:n2 )
           mo2mi%ps(n) = exp(mo2mi%ps(n))
@@ -185,8 +187,12 @@ program microphysics_code
         mi2mo%tten = 0.0_rkx
         mi2mo%qxten = 0.0_rkx
 
+        call system_clock(tstart)
         call nogtom(n1,n2,dt,mo2mi,mi2mo)
-
+        call system_clock(tstop)
+        print *, '########################################################'
+        print *, 'Elapsed time : ',real(tstop-tstart,rk8)/real(trate,rk8), &
+          ' s'
         print *, '########################################################'
         print *, 'Large scale rain (max)       : ', maxval(mi2mo%rainnc)
         print *, 'Large scale snow (max)       : ', maxval(mi2mo%snownc)
