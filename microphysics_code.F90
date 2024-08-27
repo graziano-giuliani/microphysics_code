@@ -52,7 +52,7 @@ program microphysics_code
   real(rkx) :: kabsi , kabsl , kabs , arg , cldemis
   real(rk8) :: eccen , obliq , mvelp , obliqr , lambm0 , mvelpp , calday
   real(rk8) :: declin , eccf
-  real(rk8) :: dt
+  real(rkx) :: dt
   integer(ik8) :: tstart , tstop , trate
 
   call system_clock(count_rate=trate)
@@ -72,7 +72,7 @@ program microphysics_code
 
   ! This must be for MPI par....
   n1 = 271000
-  n2 = 271080
+  n2 = 272000
 
   dt = 120.0_rkx ! This should work for a 25km....
 
