@@ -47,7 +47,6 @@ program microphysics_code
   integer(ik4) :: iyear , imonth , mday
   integer(ik8) :: istep
   real(rkx) , dimension(:) , pointer :: am , bm , ai , bi
-  real(rkx) , dimension(:,:) , pointer :: zq
   real(rkx) :: lwc , iwc , tcels , tempc , fsr , desr , aiwc , biwc
   real(rkx) :: kabsi , kabsl , kabs , arg , cldemis
   real(rk8) :: eccen , obliq , mvelp , obliqr , lambm0 , mvelpp , calday
@@ -78,7 +77,6 @@ program microphysics_code
 
   call allocate_intf(mo2mi,mi2mo,n1,n2)
   call allocate_nogtom(n1,n2)
-  allocate(zq(n1:n2,nlev+1))
 
   call read_geolocation(e5_mask,mo2mi%xlat,mo2mi%xlon)
 
@@ -161,19 +159,12 @@ program microphysics_code
           end do
         end do
 
-        do n = n1 , n2
-          zq(n,nlev+1) = mo2mi%ht(n)
-        end do
-        do k = nlev, 1 , -1
-          do n = n1 , n2
-            zq(n,k) = zq(n,k) + rovg*mo2mi%t(n,k)* &
-              log(mo2mi%pfs(n,k+1)/mo2mi%pfs(n,k))
-          end do
-        end do
         do k = 1 , nlev
           do n = n1 , n2
-            mo2mi%delz(n,k) =  zq(n,k)- zq(n,k+1)
             ! Set for now to zero
+            mo2mi%delz(n,k) = rovg * mo2mi%t(n,k) * &
+              (1.0_rkx+ep1*mo2mi%qxx(n,k,iqqv))   * &
+              log(mo2mi%pfs(n,k+1)/mo2mi%pfs(n,k))
             mo2mi%heatrt(n,k) = 0.0_rkx
             mo2mi%qdetr(n,k) = 0.0_rkx
             mo2mi%pverv(n,k) = 0.0_rkx
@@ -218,7 +209,6 @@ program microphysics_code
   call deallocate_nogtom( )
   deallocate(am,bm)
   deallocate(ai,bi)
-  deallocate(zq)
 
   contains
 
